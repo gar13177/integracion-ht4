@@ -2,6 +2,10 @@
 
 ## Microservicio de control de pedidos
 
+Docker Hub: 
+<br>
+`docker pull gar13177/integracion-ht4`
+
 Información: 
 * Documentación de docker: https://www.docker.com
 * Instalación de docker en linux: https://www.docker.com/docker-ubuntu
@@ -37,3 +41,8 @@ Para correr sin docker:
 `pip install -r requirements.txt`
 <br>
 `python manage.py runserver`
+
+
+Más información sobre django y docker:
+<br>
+https://github.com/erroneousboat/docker-django
