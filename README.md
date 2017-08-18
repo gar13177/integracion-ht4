@@ -2,9 +2,16 @@
 
 ## Microservicio de control de pedidos
 
-Docker Hub: 
+Pull from docker hub: 
 <br>
 `docker pull gar13177/integracion-ht4`
+<br>
+Update docker hub:
+<br>
+`docker commit <container-id> gar13177/integracion-ht4`
+<br>
+`docker push gar13177/integracion-ht4`
+
 
 Información: 
 * Documentación de docker: https://www.docker.com
