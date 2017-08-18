@@ -10,11 +10,15 @@ Información:
 
 
 Para correr con docker:
+<br>
 `git pull https://github.com/gar13177/integracion-ht4.git`
+<br>
 `docker-compose up`
 
 Para correr sin docker:
+<br>
 `git pull https://github.com/gar13177/integracion-ht4.git`
+<br>
 `pip install -r requirements.txt`
 `python manage.py runserver`
 
@@ -27,6 +31,9 @@ Navegar en el contenedor de docker:
 
 
 Para correr sin docker:
+<br>
 `git pull https://github.com/gar13177/integracion-ht4.git`
+<br>
 `pip install -r requirements.txt`
+<br>
 `python manage.py runserver`
