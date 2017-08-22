@@ -1,16 +1,13 @@
 from orchestrator.models import LoginUser, AppUser
 from orchestrator.serializers import LoginUserSerializer, AppUserSerializer
-from rest_framework import mixins
-from rest_framework import generics
+from rest_framework import generics, status ,mixins
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
+from rest_framework.response import Response
 
+# ###########
 from orchestrator.externalcommunication.apicalls import requestLoginERP
 
-# ##########################
-from django.http import Http404
-from rest_framework.response import Response
-from rest_framework import status, generics
 
 class LoginUserList(mixins.CreateModelMixin,
                     generics.GenericAPIView):

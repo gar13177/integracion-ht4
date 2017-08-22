@@ -13,3 +13,11 @@ def requestLoginERP(args):
         'user_rights': []
     }
     return args
+
+def requestNewOrderToERP(args):
+    args['type'] = 'success'
+    args['order_token'] = 'aosntaspoi125'
+    return args
+
+def sendOrderToProduction(args):
+    return args

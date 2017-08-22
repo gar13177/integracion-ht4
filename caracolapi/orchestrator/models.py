@@ -13,7 +13,7 @@ class LoginUser(models.Model):
 
     # override: modelo sin persistencia
     def save(self, *args, **kwargs):
-        pass
+        pass 
 
 class AppUser(models.Model):
     """
@@ -28,3 +28,27 @@ class AppUser(models.Model):
 
     class Meta:
         ordering = ('created',)
+
+class OrderRequested(models.Model):
+    """
+    Clase con parametros para hacer una orden
+    """
+    user_token = models.CharField(max_length=100)
+    order = models.TextField()
+
+    class Meta:
+        # evitar persistencia
+        managed = False
+
+    # override: modelo sin persistencia
+    def save(self, *args, **kwargs):
+        pass
+
+class OrderStored(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    user_token = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    order_token = models.CharField(max_length=100, primary_key=True)
+
+    class Meta:
+        ordering = ('created',)
+
