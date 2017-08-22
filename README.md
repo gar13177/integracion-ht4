@@ -47,6 +47,10 @@ Para correr sin docker:
 <br>
 `pip install -r requirements.txt`
 <br>
+`python manage.py makemigrations`
+<br>
+`python manage.py migrate`
+<br>
 `python manage.py runserver`
 
 
