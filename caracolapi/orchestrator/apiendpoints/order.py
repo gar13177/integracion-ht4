@@ -44,8 +44,7 @@ class OrderRequestedList(mixins.CreateModelMixin,
         order = OrderStoredSerializer(data=order_pending)#, context={'request':request})
 
         if order.is_valid():
-            print (order)
-            order.save()
+            order.save(user_token=user)
             return Response(order.data, status=status.HTTP_202_ACCEPTED)
 
         return Response(order.errors, status=status.HTTP_400_BAD_REQUEST)
