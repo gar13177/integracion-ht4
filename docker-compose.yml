@@ -1,10 +1,14 @@
 version: '3'
 
 services:
-  db:
-    image: postgres
-    ports:
-      - "8002:5432"
+  db2:
+      image: postgres
+      ports:
+        - "8002:5432"
+  #db:
+  #  image: postgres
+  #  ports:
+  #    - "8002:5432"
   web:
     build: .
     command: python3 caracolapi/manage.py runserver 0.0.0.0:8000
@@ -13,4 +17,4 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - db2
