@@ -53,4 +53,12 @@ class OrderStored(models.Model):
         ordering = ('created',)
 
 
-#aqui hago mi ofertaModel
+#aqui hago mi promocionModel
+class Promomotion(models.Model):
+    """
+    promotion_description: es la descripcion de la promocion que se le presenta al usuario
+    expiration_date: es la fecha de expiracion de la promocion
+    """
+    promotion_description = models.CharField(max_length=100)
+    expiration_date = models.DateTimeField()
+
