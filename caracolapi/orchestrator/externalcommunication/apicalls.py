@@ -25,3 +25,6 @@ def requestNewOrderToERP(args):
 def sendOrderToProduction(args):
     args['status'] = 'ready'
     return args
+
+def sendNotificationToUsers(args):
+    return args

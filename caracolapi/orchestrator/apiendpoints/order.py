@@ -19,7 +19,7 @@ class OrderRequestedList(mixins.CreateModelMixin,
         # new order serializer
         new_order = OrderRequestedSerializer(data=request.data) 
         if not new_order.is_valid():
-            Response(new_order.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(new_order.errors, status=status.HTTP_400_BAD_REQUEST)
         
         try:
             user = AppUser.objects.get(user_token=request.data['user_token'])

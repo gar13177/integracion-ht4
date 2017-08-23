@@ -1,9 +1,11 @@
 from orchestrator.models import OrderStored
-from orchestrator.serializers import DeliverRequestSerializer
+from orchestrator.serializers import DeliverRequestSerializer, OrderStoredSerializer
 from rest_framework import generics, status, mixins
 # from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
 from orchestrator.apiendpoints.constants import Constants
+from orchestrator.externalcommunication.apicalls import sendNotificationToUsers
+from django.forms.models import model_to_dict
 
 
 class OrderUpdate(mixins.CreateModelMixin, generics.GenericAPIView):
@@ -24,7 +26,7 @@ class OrderUpdate(mixins.CreateModelMixin, generics.GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if request.data['order_state'] == Constants.ORDER_DELIVERED:
+        if request.data['order_status'] == Constants.ORDER_DELIVERED:
             order.delete()
             return Response(
                 {
@@ -36,9 +38,9 @@ class OrderUpdate(mixins.CreateModelMixin, generics.GenericAPIView):
         order.status = request.data['order_status']
         order.save()
 
+        sendNotificationToUsers(order)
+
         return Response(
-            {
-                'message': Constants.ANSWER_ORDER_UPDATE_SUCCESS
-            },
+            model_to_dict(order),
             status=status.HTTP_202_ACCEPTED
         )
