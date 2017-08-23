@@ -21,3 +21,24 @@ def requestNewOrderToERP(args):
 
 def sendOrderToProduction(args):
     return args
+
+def requestPromotions():
+    args = {
+                'promotion_description': 'Hoy miercoles 2x1 en todas las ensaladas',
+                'expiration_date': '2017-08-24'
+            }
+    """[{
+                'promotion_description': 'Hoy miercoles 2x1 en todas las ensaladas',
+                'expiration_date': '2017-08-24'
+            },
+            {
+                'promotion_description': 'Semana saludable, todos iGO 2x1',
+                'expiration_date': '2017-08-24'
+            },
+            {
+                'promotion_description': 'Compra 3 iGo y te regalamos unos doritos',
+                'expiration_date': '2017-08-24'
+            }
+           ]
+    """
+    return args

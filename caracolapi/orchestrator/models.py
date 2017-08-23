@@ -54,7 +54,7 @@ class OrderStored(models.Model):
 
 
 #aqui hago mi promocionModel
-class Promomotion(models.Model):
+class Promotion(models.Model):
     """
     promotion_description: es la descripcion de la promocion que se le presenta al usuario
     expiration_date: es la fecha de expiracion de la promocion
