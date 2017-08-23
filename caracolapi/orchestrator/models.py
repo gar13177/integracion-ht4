@@ -23,7 +23,7 @@ class AppUser(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     expiry = models.DateTimeField()
     user_token = models.CharField(max_length=100, primary_key=True)
-    user_rights = None
+    user_rights = models.CharField(max_length=100, default=Constants.USER_RIGHTS_CLIENT)
 
     #owner = models.ForeignKey('auth.User', related_name='snippets', on_delete=models.CASCADE)
 
@@ -47,7 +47,7 @@ class OrderRequested(models.Model):
 
 class OrderStored(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    user_token = models.ForeignKey(AppUser,db_column='user_token', on_delete=models.CASCADE)
+    user_token = models.ForeignKey(AppUser,db_column='user_token', related_name ='orders', on_delete=models.CASCADE)
     order_token = models.CharField(max_length=100, primary_key=True)
     status = models.CharField(max_length=100, default=Constants.ORDER_INVOICED)
 

@@ -1,9 +1,11 @@
 from orchestrator.models import OrderRequested, OrderStored, AppUser
 from orchestrator.serializers import OrderRequestedSerializer, OrderStoredSerializer
+from orchestrator.apiendpoints.constants import Constants
 from rest_framework import generics, status ,mixins
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from rest_framework.response import Response
+
 
 # ###########
 from orchestrator.externalcommunication.apicalls import requestNewOrderToERP, sendOrderToProduction
@@ -22,23 +24,23 @@ class OrderRequestedList(mixins.CreateModelMixin,
         try:
             user = AppUser.objects.get(user_token=request.data['user_token'])
         except ObjectDoesNotExist:
-            return Response({'user not found'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({Constants.USER_NOT_FOUND}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         order_billed = requestNewOrderToERP({
             'user_token':request.data['user_token'],
             'order':request.data['order']
             })
 
-        if order_billed['type'] != 'success':
+        if order_billed['type'] != Constants.ANSWER_SUCCESS:
             # error desde el request al ERP
             return Response({order_billed.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         order_pending = sendOrderToProduction(order_billed)
 
-        if order_pending['type'] != 'success':
+        if order_pending['type'] != Constants.ANSWER_SUCCESS:
             return Response({order_pending.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-        if order_pending['status'] == 'done':
+        if order_pending['status'] == Constants.ORDER_DONE:
             return Response(order_pending, status=status.HTTP_202_ACCEPTED)
         
         order = OrderStoredSerializer(data=order_pending)#, context={'request':request})
