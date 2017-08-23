@@ -26,7 +26,8 @@ class PromotionsList(mixins.RetrieveModelMixin, generics.GenericAPIView):
 
         promotionsModels = []
         for promotion in promotions:
-            promotionsModels.append(model_to_dict(Promotion(promotion)))
+            # promotionsModels.append(model_to_dict(Promotion(**promotion)))
+            promotionsModels.append(model_to_dict(Promotion(**promotion)))
 
         return Response(
             promotionsModels,

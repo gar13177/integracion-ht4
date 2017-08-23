@@ -65,7 +65,7 @@ class OrderUpdateRequest(models.Model):
 
 
 class Promotion(models.Model):
-    promotion_description = models.CharField(max_length=100)
+    promotion_description = models.CharField(max_length=100, primary_key=True)
     promotion_expiration_date = models.DateTimeField()
 
     class Meta:
