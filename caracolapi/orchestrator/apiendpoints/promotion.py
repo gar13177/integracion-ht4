@@ -15,3 +15,6 @@ class PromotionList(mixins.CreateModelMixin,
         active_promotions = requestPromotions()
         promotions_to_display = PromotionSerializer(active_promotions, many=True)
         return Response(promotions_to_display.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
