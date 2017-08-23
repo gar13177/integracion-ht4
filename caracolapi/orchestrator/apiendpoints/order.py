@@ -1,12 +1,14 @@
-from orchestrator.models import OrderRequested, OrderStored
+from orchestrator.models import OrderRequested, OrderStored, AppUser
 from orchestrator.serializers import OrderRequestedSerializer, OrderStoredSerializer
+from orchestrator.apiendpoints.constants import Constants
 from rest_framework import generics, status ,mixins
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
 from rest_framework.response import Response
 
+
 # ###########
-from orchestrator.externalcommunication.apicalls import requestNewOrderToERP
+from orchestrator.externalcommunication.apicalls import requestNewOrderToERP, sendOrderToProduction
 
 class OrderRequestedList(mixins.CreateModelMixin,
                     generics.GenericAPIView):
@@ -16,55 +18,55 @@ class OrderRequestedList(mixins.CreateModelMixin,
     def post(self, request, *args, **kwargs):
         # new order serializer
         new_order = OrderRequestedSerializer(data=request.data) 
-
+        if not new_order.is_valid():
+            return Response(new_order.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         try:
-            user = AppUser.objects.get(user_token=new_order['user_token'])
+            user = AppUser.objects.get(user_token=request.data['user_token'])
         except ObjectDoesNotExist:
-            return Response({'user not found'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({Constants.USER_NOT_FOUND}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         order_billed = requestNewOrderToERP({
-                request.data['order']
+            'user_token':request.data['user_token'],
+            'order':request.data['order']
             })
 
-        if order_billed['type'] != 'success':
+        if order_billed['type'] != Constants.ANSWER_SUCCESS:
             # error desde el request al ERP
             return Response({order_billed.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         order_pending = sendOrderToProduction(order_billed)
 
-        if order_pending['type'] != 'success':
+        if order_pending['type'] != Constants.ANSWER_SUCCESS:
             return Response({order_pending.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-        if order_pending['status'] == 'done':
-            return Response(order_pending, status=status.HTTP_202_ACCEPTEDl)
+        if order_pending['status'] == Constants.ORDER_DONE:
+            return Response(order_pending, status=status.HTTP_202_ACCEPTED)
+        
+        order = OrderStoredSerializer(data=order_pending)#, context={'request':request})
 
-        order = OrderStoredSerializer(order_pending)
-
-        if auth_user.is_valid():
-            order.save()
+        if order.is_valid():
+            order.save(user_token=user)
             return Response(order.data, status=status.HTTP_202_ACCEPTED)
 
         return Response(order.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class AppUserList(mixins.ListModelMixin,
+class OrderStoredList(mixins.ListModelMixin,
                     generics.GenericAPIView):
-    queryset = AppUser.objects.all()
-    serializer_class = AppUserSerializer
+    queryset = OrderStored.objects.all()
+    serializer_class = OrderStoredSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
-class AppUserDetail(mixins.RetrieveModelMixin,
+class OrderStoredDetail(mixins.RetrieveModelMixin,
                     generics.GenericAPIView):
-    queryset = AppUser.objects.all()
-    serializer_class = AppUserSerializer
+    queryset = OrderStored.objects.all()
+    serializer_class = OrderStoredSerializer
 
     def get(self, request, *args, **kwargs):
         try:
-            db_user = AppUser.objects.get(user_token=kwargs['pk'])
-            expire_date = db_user.expiry
-            if timezone.now() > expire_date:
-                db_user.delete()
+            order = OrderStored.objects.get(order_token=kwargs['pk'])
         except ObjectDoesNotExist:
             pass
         return self.retrieve(request, *args, **kwargs)
