@@ -22,7 +22,7 @@ class LoginUserSerializer(serializers.HyperlinkedModelSerializer):
 
 class AppUserSerializer(serializers.HyperlinkedModelSerializer):
     #expiry = serializers.DateField(required=True)
-
+    #orders = serializers.HyperlinkedRelatedField(many=True, view_name='order-l', read_only=True)
     class Meta:
         model = AppUser
-        fields = ('created', 'user_token', 'user_rights', 'expiry')
+        fields = ('created', 'user_token', 'user_rights', 'expiry')#, 'orders')
