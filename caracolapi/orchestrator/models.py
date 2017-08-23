@@ -46,8 +46,9 @@ class OrderRequested(models.Model):
 
 class OrderStored(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    user_token = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    user_token = models.ForeignKey(AppUser,db_column='user_token', on_delete=models.CASCADE)
     order_token = models.CharField(max_length=100, primary_key=True)
+    status = models.CharField(max_length=100)
 
     class Meta:
         ordering = ('created',)

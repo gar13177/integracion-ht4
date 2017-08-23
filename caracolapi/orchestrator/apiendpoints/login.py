@@ -16,8 +16,8 @@ class LoginUserList(mixins.CreateModelMixin,
 
     def post(self, request, *args, **kwargs):
         user_info = requestLoginERP({
-                request.data['user'],
-                request.data['password']
+                'user':request.data['user'],
+                'password':request.data['password']
             })
 
         if user_info['type'] != 'success':

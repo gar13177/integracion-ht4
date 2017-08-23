@@ -20,4 +20,5 @@ def requestNewOrderToERP(args):
     return args
 
 def sendOrderToProduction(args):
+    args['status'] = 'pending'
     return args
