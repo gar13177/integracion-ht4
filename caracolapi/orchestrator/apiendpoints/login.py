@@ -1,5 +1,6 @@
 from orchestrator.models import LoginUser, AppUser
 from orchestrator.serializers import LoginUserSerializer, AppUserSerializer
+from orchestrator.apiendpoints.constants import Constants
 from rest_framework import generics, status ,mixins
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
@@ -20,7 +21,7 @@ class LoginUserList(mixins.CreateModelMixin,
                 'password':request.data['password']
             })
 
-        if user_info['type'] != 'success':
+        if user_info['type'] != Constants.ANSWER_SUCCESS:
             # error desde el request al ERP
             return Response({user_info.errors}, status=status.HTTP_400_BAD_REQUEST)
 
