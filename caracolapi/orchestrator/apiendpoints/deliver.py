@@ -3,6 +3,7 @@ from orchestrator.serializers import DeliverRequestSerializer
 from rest_framework import generics, status, mixins
 # from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.response import Response
+from orchestrator.apiendpoints.constants import *
 
 
 class OrderUpdate(mixins.CreateModelMixin, generics.GenericAPIView):
@@ -18,21 +19,26 @@ class OrderUpdate(mixins.CreateModelMixin, generics.GenericAPIView):
         if order is None:
             return Response(
                 {
-                    'errors': 'No se encontro la orden'
+                    'errors': ANSWER_ORDER_NOT_FOUND
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if request.data['order_status'] == 'entregado':
+        if request.data['order_state'] == ORDER_DELIVERED:
             order.delete()
             return Response(
                 {
-                    'message': 'Orden entregada correctamente'
+                    'message': ANSWER_DELIVER_SUCCESS
                 },
                 status=status.HTTP_202_ACCEPTED
             )
 
-        order.status = request.data['order_status']
+        order.status = request.data['order_state']
         order.save()
 
-        return Response(order, status=status.HTTP_202_ACCEPTED)
+        return Response(
+            {
+                'message': ANSWER_ORDER_UPDATE_SUCCESS
+            },
+            status=status.HTTP_202_ACCEPTED
+        )

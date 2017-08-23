@@ -6,6 +6,9 @@ class Constants(object):
 
     ANSWER_SUCCESS = 'success'
 
-
+    # Constantes de cambio de estado a orden - Adolfo
+    ANSWER_ORDER_NOT_FOUND = 'No se encontro la orden'
+    ANSWER_DELIVER_SUCCESS = 'Orden entregada correctamente'
+    ANSWER_ORDER_UPDATE_SUCCESS = 'Orden actualizada correctamente'
     
 
