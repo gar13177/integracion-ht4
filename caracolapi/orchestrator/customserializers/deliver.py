@@ -5,4 +5,4 @@ from orchestrator.models import OrderUpdateRequest
 class DeliverRequestSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = OrderUpdateRequest
-        fiellds = ('order_token', 'order_state')
+        fields = ('order_token', 'order_state')

@@ -10,9 +10,29 @@ class OrderUpdate(mixins.CreateModelMixin, generics.GenericAPIView):
     serializer_class = DeliverRequestSerializer
 
     def post(self, request, *args, **kwargs):
-        orderInfo = self.get_object()
-        print(orderInfo)
+        try:
+            order = OrderStored.objects.get(order_token=request.data['order_token'])
+        except OrderStored.DoesNotExist:
+            order = None
 
-        order = OrderStored.objects.get(order_token=orderInfo.order_token)
-        # order.delete()
-        return Response(order.data, status=status.HTTP_202_ACCEPTED)
+        if order is None:
+            return Response(
+                {
+                    'errors': 'No se encontro la orden'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if request.data['order_status'] == 'entregado':
+            order.delete()
+            return Response(
+                {
+                    'message': 'Orden entregada correctamente'
+                },
+                status=status.HTTP_202_ACCEPTED
+            )
+
+        order.status = request.data['order_status']
+        order.save()
+
+        return Response(order, status=status.HTTP_202_ACCEPTED)
