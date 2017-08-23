@@ -6,15 +6,9 @@ urlpatterns = [
     url(r'^login/user/$', views.LoginUserList.as_view()),
     url(r'^login/user/(?P<pk>([0-9]|[a-z]|[A-Z]|-)+)/$', views.AppUserDetail.as_view(), name='appuser-detail'),
     url(r'^order/new/$', views.OrderRequestedList.as_view()),
-<<<<<<< HEAD
     url(r'^order/new/(?P<pk>([0-9]|[a-z]|[A-Z]|-)+)/$', views.OrderStoredDetail.as_view(), name='order-detail'),
     
     ## remover en produccion
-=======
-    url(r'^order/new/(?P<pk>([0-9]|[a-z]|[A-Z])+)/$', views.OrderStoredDetail.as_view(), name='order-detail'),
-
-    # remover en produccion
->>>>>>> 804652b8d746734b81f2f47c218681e5c30ddc90
     url(r'^login/users/$', views.AppUserList.as_view()),
     url(r'^order/list/$', views.OrderStoredList.as_view()),
 
