@@ -52,3 +52,5 @@ class OrderStored(models.Model):
     class Meta:
         ordering = ('created',)
 
+
+#aqui hago mi ofertaModel
