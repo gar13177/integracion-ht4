@@ -94,3 +94,6 @@ ENV/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Ignorar migraciones
+caracolapi/orchestrator/migrations/
