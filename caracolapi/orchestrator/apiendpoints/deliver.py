@@ -33,7 +33,7 @@ class OrderUpdate(mixins.CreateModelMixin, generics.GenericAPIView):
                 status=status.HTTP_202_ACCEPTED
             )
 
-        order.status = request.data['order_state']
+        order.status = request.data['order_status']
         order.save()
 
         return Response(
