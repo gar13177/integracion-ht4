@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class OrderRequestedSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = OrderRequested
-        fiellds = ('user_token', 'order')
+        fields = ('user_token', 'order')
 
 class OrderStoredSerializer(serializers.HyperlinkedModelSerializer):
     user_token = serializers.ReadOnlyField(source='user_token.user_token')
