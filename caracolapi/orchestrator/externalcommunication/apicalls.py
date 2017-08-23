@@ -28,3 +28,18 @@ def sendOrderToProduction(args):
 
 def sendNotificationToUsers(args):
     return args
+
+
+def requestPromotionsList(args):
+    args = [
+        {
+            'promotion_description': '2x1 en papas fritas',
+            'promotion_expiration_date': '2017-09-23'
+        },
+        {
+            'promotion_description': '20% descuento en pan con carne',
+            'promotion_expiration_date': '2017-08-31'
+        }
+    ]
+
+    return args

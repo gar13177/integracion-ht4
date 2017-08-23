@@ -62,3 +62,12 @@ class OrderUpdateRequest(models.Model):
     class Meta:
         # evitar persistencia
         managed = False
+
+
+class Promotion(models.Model):
+    promotion_description = models.CharField(max_length=100)
+    promotion_expiration_date = models.DateTimeField()
+
+    class Meta:
+        # evitar persistencia
+        managed = False

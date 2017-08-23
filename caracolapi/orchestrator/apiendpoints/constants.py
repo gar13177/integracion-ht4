@@ -12,5 +12,5 @@ class Constants(object):
     ANSWER_ORDER_NOT_FOUND = 'No se encontro la orden'
     ANSWER_DELIVER_SUCCESS = 'Orden entregada correctamente'
     ANSWER_ORDER_UPDATE_SUCCESS = 'Orden actualizada correctamente'
-    
 
+    ANSWER_NO_PROMOTIONS = 'No hay promociones activas'

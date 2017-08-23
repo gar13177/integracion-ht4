@@ -14,6 +14,9 @@ urlpatterns = [
 
     # Rutas para cambiar estado de orden
     url(r'^order/update/$', views.OrderUpdate.as_view()),
+
+    # Rutas para promociones
+    url(r'^promotion/list/$', views.PromotionsList.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
