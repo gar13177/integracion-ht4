@@ -54,3 +54,11 @@ class OrderStored(models.Model):
     class Meta:
         ordering = ('created',)
 
+
+class OrderUpdateRequest(models.Model):
+    order_token = models.CharField(max_length=100)
+    order_state = models.CharField(max_length=100)
+
+    class Meta:
+        # evitar persistencia
+        managed = False
